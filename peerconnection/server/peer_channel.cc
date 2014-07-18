@@ -35,6 +35,7 @@
 
 #include "talk/examples/peerconnection/server/data_socket.h"
 #include "talk/examples/peerconnection/server/utils.h"
+#include "talk/base/logging.h"
 
 // Set to the peer id of the originator when messages are being
 // exchanged between peers, but set to the id of the receiving peer
@@ -130,6 +131,7 @@ void ChannelMember::OnClosing(DataSocket* ds) {
     waiting_socket_ = NULL;
     timestamp_ = time(NULL);
   }
+  LOG(INFO) << __FUNCTION__ << " " << "closing not 'waiting' socket";
 }
 
 void ChannelMember::QueueResponse(const std::string& status,
@@ -227,6 +229,7 @@ ChannelMember* PeerChannel::IsTargetedRequest(const DataSocket* ds) const {
     return NULL;
   size_t found;
   const char kTargetPeerIdParam[] = "to=";
+  //seems to find the last to parameter 
   do {
     found = path.find(kTargetPeerIdParam, args);
     if (found == std::string::npos)
@@ -250,7 +253,7 @@ ChannelMember* PeerChannel::IsTargetedRequest(const DataSocket* ds) const {
 bool PeerChannel::AddMember(DataSocket* ds) {
   assert(IsPeerConnection(ds));
   ChannelMember* new_guy = new ChannelMember(ds);
-  Members failures;
+  Members failures; //233333
   BroadcastChangedState(*new_guy, &failures);
   HandleDeliveryFailures(&failures);
   members_.push_back(new_guy);
@@ -284,7 +287,7 @@ void PeerChannel::OnClosing(DataSocket* ds) {
       BroadcastChangedState(*m, &failures);
       HandleDeliveryFailures(&failures);
       delete m;
-      if (i == members_.end())
+      if (i == members_.end())//good
         break;
     }
   }
