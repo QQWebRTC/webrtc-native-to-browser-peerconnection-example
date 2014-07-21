@@ -91,7 +91,10 @@ class PeerConnectionClient : public sigslot::has_slots<>,
   void Close();
   void InitSocketSignals();
   bool ConnectControlSocket();
+
+  //fired when connected with server
   void OnConnect(talk_base::AsyncSocket* socket);
+  
   void OnHangingGetConnect(talk_base::AsyncSocket* socket);
   void OnMessageFromPeer(int peer_id, const std::string& message);
 
@@ -128,7 +131,10 @@ class PeerConnectionClient : public sigslot::has_slots<>,
   talk_base::AsyncResolver* resolver_;
   talk_base::scoped_ptr<talk_base::AsyncSocket> control_socket_;
   talk_base::scoped_ptr<talk_base::AsyncSocket> hanging_get_;
+  
+  //a string buffer used when OnConnect trigered
   std::string onconnect_data_;
+  
   std::string control_data_;
   std::string notification_data_;
   std::string client_name_;
