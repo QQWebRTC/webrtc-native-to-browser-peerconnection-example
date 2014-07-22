@@ -40,6 +40,7 @@ typedef int socklen_t;
 #endif
 
 #include <string>
+#include <map>
 
 #ifndef SOCKET_ERROR
 #define SOCKET_ERROR (-1)
@@ -92,6 +93,7 @@ class DataSocket : public SocketBase {
 
   const std::string& request_path() const { return request_path_; }
   std::string request_arguments() const;
+  std::map<std::string,std::string> request_arguments_dict() const;
 
   const std::string& data() const { return data_; }
 

@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sstream>
 #if defined(POSIX)
 #include <unistd.h>
 #endif
@@ -91,6 +92,43 @@ std::string DataSocket::request_arguments() const {
     return request_path_.substr(args + 1);
   return "";
 }
+std::map<std::string,std::string> DataSocket:request_arguments_dict() const{
+  std::string s = request_arguments();
+  if(*s.end()!='&'){
+      s.push_back('&');
+  }
+  std::istringstream ss(s);
+  ss>>std::noskipws;
+  std::string word;
+  std::string par_name;
+  std::string par_value;
+  std::map<std::string,std::string> d;
+  char ch;
+  bool val = false;
+  while (ss>>ch){
+    if (ch=='='){
+      val = true;
+      continue;
+    }
+    if (ch=='&'){
+      if(par_name.length() >0 && par_value.length() >0 ){
+          d.insert(std::pair<std::string,std::string>(par_name,par_value));
+      }
+      par_name.clear();
+      par_value.clear();
+      val=false;
+      continue;
+    }
+    if(val){
+      par_value.push_back(ch);
+    }
+    else{
+      par_name.push_back(ch);
+    }
+  }
+  return d;
+}
+ 
 
 bool DataSocket::PathEquals(const char* path) const {
   assert(path);

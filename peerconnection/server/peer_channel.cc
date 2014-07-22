@@ -73,17 +73,9 @@ ChannelMember::ChannelMember(DataSocket* socket)
   assert(socket);
   assert(socket->method() == DataSocket::GET);
   assert(socket->PathEquals("/sign_in"));
-  string message = socket->request_arguments();  // TODO: urldecode
-  Json::Reader reader;
-  Json::Value jmessage;
-  if (!reader.parse(message,jmessage)){
-      LOG(WARNING) << "Received unknown message. "<<message;
-      return;
-  }
-  string name_;
-  string room_;
-  GetStringFromJsonObject(jmessage,"name",&name_);
-  GetStringFromJsonObject(jmessage,"room",&room_);
+  std::map<std::string,std::string> arguments_dict = socket->request_arguments_dict();  // TODO: urldecode
+  name_ = arguments_dict["name"];
+  room_ = arguments_dict["room"];
 
   if (!name_.length())
     name_ = "peer_" + int2str(id_);

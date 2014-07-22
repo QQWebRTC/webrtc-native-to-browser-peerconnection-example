@@ -37,7 +37,7 @@
 #include "talk/examples/peerconnection/server/utils.h"
 
 DEFINE_bool(help, false, "Prints this message");
-DEFINE_int(port, 8888, "The port on which to listen.");
+DEFINE_int(port, 8886, "The port on which to listen.");
 
 static const size_t kMaxConnections = (FD_SETSIZE - 2);
 

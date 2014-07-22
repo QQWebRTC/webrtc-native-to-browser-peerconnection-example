@@ -2,6 +2,7 @@
 request = null
 hangingGet = null
 localName = undefined
+room = undefined
 server = undefined
 myId = -1
 otherPeers = {}
@@ -115,11 +116,11 @@ signIn = ->
   try
     request = new XMLHttpRequest()
     request.onreadystatechange = signInCallback
-    request.open "GET", server + "/sign_in?" + localName, true
-    DEBUGLOG("sign server is #{server}")
+    request.open "GET", "#{server}/sign_in?name=#{localName}&room=#{room}"
+    #request.open "GET", server + "/sign_in?" + localName, true
     request.send()
   catch e
-    trace "error: " + e.description
+    trace "error: " + e.message
   return
 sendToPeer = (peer_id, data) ->
   try
@@ -144,6 +145,7 @@ sendToPeer = (peer_id, data) ->
   return
 connect = ->
   localName = document.getElementById("name").value.toLowerCase()
+  room = document.getElementById("room").value
   server = document.getElementById("server").value.toLowerCase()
 
   DEBUGLOG("server is #{server}")
