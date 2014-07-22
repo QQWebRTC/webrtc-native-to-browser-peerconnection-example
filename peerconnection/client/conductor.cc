@@ -305,11 +305,12 @@ void Conductor::OnServerConnectionFailure() {
 // MainWndCallback implementation.
 //
 
-void Conductor::StartLogin(const std::string& server, int port) {
+void Conductor::StartLogin(const std::string& server, int port, const std::string& room) {
   if (client_->is_connected())
     return;
   server_ = server;
-  client_->Connect(server, port, GetPeerName());
+  room_ = room;
+  client_->Connect(server, port, GetPeerName(),room);
 }
 
 void Conductor::DisconnectFromServer() {

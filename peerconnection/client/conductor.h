@@ -143,6 +143,7 @@ class Conductor
   std::map<std::string, talk_base::scoped_refptr<webrtc::MediaStreamInterface> >
       active_streams_;
   std::string server_;
+  std::string room_;
 };
 
 #endif  // PEERCONNECTION_SAMPLES_CLIENT_CONDUCTOR_H_
