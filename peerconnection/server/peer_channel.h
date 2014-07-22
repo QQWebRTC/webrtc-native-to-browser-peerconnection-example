@@ -161,6 +161,7 @@ class PeerChannelRooms{
 
     void CheckForTimeout();
   protected:
+    void DeleteAll();
     PeerChannel* getChannelByRoom(const std::string& room);
 
   protected:
