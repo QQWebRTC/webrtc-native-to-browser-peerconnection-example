@@ -417,7 +417,6 @@ void PeerChannelRooms::CloseAll(){
       roomChannels_.end()!=iter;++iter){
       iter->second->CloseAll();
   }
-  return NULL;
 }
 void PeerChannelRooms::OnClosing(DataSocket* ds){
   for(RoomChannels::iterator iter=roomChannels_.begin();
