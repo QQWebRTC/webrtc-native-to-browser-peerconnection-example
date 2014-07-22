@@ -77,6 +77,7 @@ class ChannelMember {
   bool connected_;
   time_t timestamp_;
   std::string name_;
+  std::string room_;
   std::queue<QueuedResponse> queue_;
   static int s_member_id_;
 };

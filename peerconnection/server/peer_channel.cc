@@ -36,6 +36,7 @@
 #include "talk/examples/peerconnection/server/data_socket.h"
 #include "talk/examples/peerconnection/server/utils.h"
 #include "talk/base/logging.h"
+#include "talk/base/json.h"
 
 // Set to the peer id of the originator when messages are being
 // exchanged between peers, but set to the id of the receiving peer
@@ -72,10 +73,22 @@ ChannelMember::ChannelMember(DataSocket* socket)
   assert(socket);
   assert(socket->method() == DataSocket::GET);
   assert(socket->PathEquals("/sign_in"));
-  name_ = socket->request_arguments();  // TODO: urldecode
+  string message = socket->request_arguments();  // TODO: urldecode
+  Json::Reader reader;
+  Json::Value jmessage;
+  if (!reader.parse(message,jmessage)){
+      LOG(WARNING) << "Received unknown message. "<<message;
+      return;
+  }
+  string name_;
+  string room_;
+  GetStringFromJsonObject(jmessage,"name",&name_);
+  GetStringFromJsonObject(jmessage,"room",&room_);
+
   if (!name_.length())
     name_ = "peer_" + int2str(id_);
   std::replace(name_.begin(), name_.end(), ',', '_');
+  LOG(INFO) << "new connection name=" << name_ <<" room="<<room_;
 }
 
 ChannelMember::~ChannelMember() {
