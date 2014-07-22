@@ -393,7 +393,7 @@ PeerChannel* PeerChannelRooms::getChannelByRoom(const std::string& room){
   }
 }
 ChannelMember* PeerChannelRooms::Lookup(DataSocket* ds)const{
-  for(RoomChannels::iterator iter=roomChannels_.begin();
+  for(const RoomChannels::iterator iter=roomChannels_.begin();
       roomChannels_.end()!=iter;++iter){
     ChannelMember* cm = iter->second->Lookup(ds);
     if(cm){
@@ -403,7 +403,7 @@ ChannelMember* PeerChannelRooms::Lookup(DataSocket* ds)const{
   return NULL;
 }
 ChannelMember* PeerChannelRooms::IsTargetedRequest(const DataSocket* ds)const{
-  for(RoomChannels::iterator iter=roomChannels_.begin();
+  for(const RoomChannels::iterator iter=roomChannels_.begin();
       roomChannels_.end()!=iter;++iter){
     ChannelMember* cm = iter->second->IsTargetedRequest(ds);
     if(cm){
