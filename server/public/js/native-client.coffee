@@ -72,7 +72,7 @@ hangingGetCallback = ->
       hangingGet = null
     window.setTimeout startHangingGet, 0  unless myId is -1
   catch e
-    trace "Hanging get error: " + e.description
+    trace "Hanging get error: " + e.message
   return
 startHangingGet = ->
   try
@@ -84,7 +84,7 @@ startHangingGet = ->
     DEBUGLOG("server is #{server}")
     hangingGet.send()
   catch e
-    trace "error" + e.description
+    trace "error" + e.message
   return
 onHangingGetTimeout = ->
   trace "hanging get timeout. issuing again."
@@ -110,7 +110,7 @@ signInCallback = ->
         startHangingGet()
         request = null
   catch e
-    trace "error: " + e.description
+    trace "error: " + e.message
   return
 signIn = ->
   try
@@ -141,7 +141,7 @@ sendToPeer = (peer_id, data) ->
     console.log peer_id, " send ", data
     r = null
   catch e
-    trace "send to peer error: " + e.description
+    trace "send to peer error: " + e.message
   return
 connect = ->
   localName = document.getElementById("name").value.toLowerCase()

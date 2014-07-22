@@ -102,7 +102,7 @@ hangingGetCallback = function() {
     }
   } catch (_error) {
     e = _error;
-    trace("Hanging get error: " + e.description);
+    trace("Hanging get error: " + e.message);
   }
 };
 
@@ -117,7 +117,7 @@ startHangingGet = function() {
     hangingGet.send();
   } catch (_error) {
     e = _error;
-    trace("error" + e.description);
+    trace("error" + e.message);
   }
 };
 
@@ -153,7 +153,7 @@ signInCallback = function() {
     }
   } catch (_error) {
     e = _error;
-    trace("error: " + e.description);
+    trace("error: " + e.message);
   }
 };
 
@@ -193,7 +193,7 @@ sendToPeer = function(peer_id, data) {
     r = null;
   } catch (_error) {
     e = _error;
-    trace("send to peer error: " + e.description);
+    trace("send to peer error: " + e.message);
   }
 };
 
