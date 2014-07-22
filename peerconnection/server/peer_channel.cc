@@ -80,7 +80,7 @@ ChannelMember::ChannelMember(DataSocket* socket)
   if (!name_.length())
     name_ = "peer_" + int2str(id_);
   std::replace(name_.begin(), name_.end(), ',', '_');
-  LOG(INFO) << "new connection name=" << name_ <<" room="<<room_;
+  LOG(INFO) << "new connection name=" << name_ <<" room="<<room_<< "id=" << id_;
 }
 
 ChannelMember::~ChannelMember() {
@@ -136,7 +136,7 @@ void ChannelMember::OnClosing(DataSocket* ds) {
     waiting_socket_ = NULL;
     timestamp_ = time(NULL);
   }
-  LOG(INFO) << __FUNCTION__ << " " << "closing not 'waiting' socket";
+  //LOG(INFO) << __FUNCTION__ << " " << "closing not 'waiting' socket";
 }
 
 void ChannelMember::QueueResponse(const std::string& status,
