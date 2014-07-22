@@ -108,9 +108,11 @@ void PeerConnectionClient::RegisterObserver(
 }
 
 void PeerConnectionClient::Connect(const std::string& server, int port,
-                                   const std::string& client_name) {
+                                   const std::string& client_name,
+                                   const std::string& room) {
   ASSERT(!server.empty());
   ASSERT(!client_name.empty());
+  ASSERT(!room.empty());
 
   if (state_ != NOT_CONNECTED) {
     LOG(WARNING)
@@ -130,6 +132,7 @@ void PeerConnectionClient::Connect(const std::string& server, int port,
   server_address_.SetIP(server);
   server_address_.SetPort(port);
   client_name_ = client_name;
+  room_ = room;
 
   if (server_address_.IsUnresolved()) {
     state_ = RESOLVING;
@@ -160,7 +163,7 @@ void PeerConnectionClient::DoConnect() {
   InitSocketSignals();
   char buffer[1024];
   sprintfn(buffer, sizeof(buffer),
-           "GET /sign_in?%s HTTP/1.0\r\n\r\n", client_name_.c_str());
+           "GET /sign_in?name=%s&room=%s HTTP/1.0\r\n\r\n", client_name_.c_str(),room_.c_str());
   onconnect_data_ = buffer;
 
   bool ret = ConnectControlSocket();

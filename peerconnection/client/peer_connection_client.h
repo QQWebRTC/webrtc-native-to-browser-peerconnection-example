@@ -75,7 +75,8 @@ class PeerConnectionClient : public sigslot::has_slots<>,
   void RegisterObserver(PeerConnectionClientObserver* callback);
 
   void Connect(const std::string& server, int port,
-               const std::string& client_name);
+               const std::string& client_name,
+               const std::string& room);
 
   bool SendToPeer(int peer_id, const std::string& message);
   bool SendHangUp(int peer_id);
@@ -138,6 +139,7 @@ class PeerConnectionClient : public sigslot::has_slots<>,
   std::string control_data_;
   std::string notification_data_;
   std::string client_name_;
+  std::string room_;
   Peers peers_;
   State state_;
   int my_id_;

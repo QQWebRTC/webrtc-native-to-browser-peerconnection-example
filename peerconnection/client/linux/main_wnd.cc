@@ -143,11 +143,12 @@ gboolean Redraw(gpointer data) {
 GtkMainWnd::GtkMainWnd(const char* server, int port, bool autoconnect,
                        bool autocall)
     : window_(NULL), draw_area_(NULL), vbox_(NULL), server_edit_(NULL),
-      port_edit_(NULL), peer_list_(NULL), callback_(NULL),
+      port_edit_(NULL), peer_list_(NULL), callback_(NULL),room_edit_(NULL),
       server_(server), autoconnect_(autoconnect), autocall_(autocall) {
   char buffer[10];
   sprintfn(buffer, sizeof(buffer), "%i", port);
   port_ = buffer;
+  room_ = "wonderland";
 }
 
 GtkMainWnd::~GtkMainWnd() {
@@ -267,6 +268,12 @@ void GtkMainWnd::SwitchToConnectUI() {
   gtk_widget_set_size_request(port_edit_, 70, 30);
   gtk_container_add(GTK_CONTAINER(hbox), port_edit_);
 
+  room_edit_ = gtk_entry_new();
+  gtk_entry_set_text(GTK_ENTRY(room_edit_),room_.c_str());
+  gtk_widget_set_size_request(room_edit_,120,30);
+  gtk_container_add(GTK_CONTAINER(hbox),room_edit_);
+
+
   GtkWidget* button = gtk_button_new_with_label("Connect");
   gtk_widget_set_size_request(button, 70, 30);
   g_signal_connect(button, "clicked", G_CALLBACK(OnClickedCallback), this);
@@ -291,6 +298,7 @@ void GtkMainWnd::SwitchToPeerList(const Peers& peers) {
       gtk_widget_destroy(vbox_);
       vbox_ = NULL;
       server_edit_ = NULL;
+      room_edit_=NULL;
       port_edit_ = NULL;
     } else if (draw_area_) {
       gtk_widget_destroy(draw_area_);
@@ -342,6 +350,7 @@ void GtkMainWnd::OnDestroyed(GtkWidget* widget, GdkEvent* event) {
   draw_area_ = NULL;
   vbox_ = NULL;
   server_edit_ = NULL;
+  room_edit_ = NULL;
   port_edit_ = NULL;
   peer_list_ = NULL;
 }
@@ -353,6 +362,7 @@ void GtkMainWnd::OnClicked(GtkWidget* widget) {
   gtk_widget_set_sensitive(widget, false);
   server_ = gtk_entry_get_text(GTK_ENTRY(server_edit_));
   port_ = gtk_entry_get_text(GTK_ENTRY(port_edit_));
+  room_ = gtk_entry_get_text(GTK_ENTRY(room_edit_));
   int port = port_.length() ? atoi(port_.c_str()) : 0;
   callback_->StartLogin(server_, port);
 }

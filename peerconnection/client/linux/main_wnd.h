@@ -122,11 +122,13 @@ class GtkMainWnd : public MainWindow {
   GtkWidget* draw_area_;  // The drawing surface for rendering video streams.
   GtkWidget* vbox_;  // Container for the Connect UI.
   GtkWidget* server_edit_;
+  GtkWidget* room_edit_;
   GtkWidget* port_edit_;
   GtkWidget* peer_list_;  // The list of peers.
   MainWndCallback* callback_;
   std::string server_;
   std::string port_;
+  std::string room_;
   bool autoconnect_;
   bool autocall_;
   talk_base::scoped_ptr<VideoRenderer> local_renderer_;
