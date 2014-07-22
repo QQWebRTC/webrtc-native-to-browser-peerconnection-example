@@ -43,7 +43,7 @@ shareLocalMedia = (peer_connection,peer_id)->
           console.error(err)
         ,constraints
     , (err)->
-      conosle.log("getUserMedia faile, error is #{err.message}")
+      console.log("getUserMedia faile, error is #{err.message}")
 
   return
 

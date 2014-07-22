@@ -69,7 +69,7 @@ shareLocalMedia = function(peer_connection, peer_id) {
       return console.error(err);
     }, constraints);
   }, function(err) {
-    return conosle.log("getUserMedia faile, error is " + err.message);
+    return console.log("getUserMedia faile, error is " + err.message);
   });
 };
 
