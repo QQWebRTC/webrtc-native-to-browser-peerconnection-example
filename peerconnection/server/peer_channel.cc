@@ -415,19 +415,19 @@ ChannelMember* PeerChannelRooms::IsTargetedRequest(const DataSocket* ds){
 void PeerChannelRooms::CloseAll(){
   for(RoomChannels::iterator iter=roomChannels_.begin();
       roomChannels_.end()!=iter;++iter){
-      ter->second->CloseAll();
+      iter->second->CloseAll();
   }
   return NULL;
 }
 void PeerChannelRooms::OnClosing(DataSocket* ds){
   for(RoomChannels::iterator iter=roomChannels_.begin();
       roomChannels_.end()!=iter;++iter){
-      ter->second->OnClosing(ds);
+      iter->second->OnClosing(ds);
   }
 }
 void PeerChannelRooms::CheckForTimeout(){
   for(RoomChannels::iterator iter=roomChannels_.begin();
       roomChannels_.end()!=iter;++iter){
-      ter->second->CheckForTimeout();
+      iter->second->CheckForTimeout();
   }
 }

@@ -151,6 +151,10 @@ class PeerChannelRooms{
 
     void CloseAll();
 
+    // Checks if the request has a "peer_id" parameter and if so, looks up the
+    // peer for which the request is targeted at.
+    ChannelMember* IsTargetedRequest(const DataSocket* ds) const;
+
     // Called when a socket was determined to be closing by the peer (or if the
     // connection went dead).
     void OnClosing(DataSocket* ds);
