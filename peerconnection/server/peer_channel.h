@@ -137,7 +137,7 @@ class PeerChannel {
   Members members_;
 };
 
-class PeerChannelRooms : PeerChannel{
+class PeerChannelRooms {
   public:
     typedef std::map<std::string,PeerChannel*> RoomChannels;
     PeerChannelRooms(){ 
