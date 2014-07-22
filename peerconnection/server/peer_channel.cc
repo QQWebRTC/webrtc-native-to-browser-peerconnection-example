@@ -385,7 +385,7 @@ PeerChannel* PeerChannelRooms::getChannelByRoom(const std::string& room){
   RoomChannels::iterator iter = roomChannels_.find(room);
   if(roomChannels_.end()==iter){
     PeerChannel* channel = new PeerChannel();
-    roomChannels_.insert(pair<std::string,PeerChannel*>(room,channel));
+    roomChannels_.insert(std::pair<std::string,PeerChannel*>(room,channel));
     return channel;
   }
   else{
@@ -402,7 +402,7 @@ ChannelMember* PeerChannelRooms::Lookup(DataSocket* ds)const{
   }
   return NULL;
 }
-ChannelMember* PeerChannelRooms::IsTargetedRequest(const DataSocket* ds){
+ChannelMember* PeerChannelRooms::IsTargetedRequest(const DataSocket* ds)const{
   for(RoomChannels::iterator iter=roomChannels_.begin();
       roomChannels_.end()!=iter;++iter){
     ChannelMember* cm = iter->second->IsTargetedRequest(ds);
