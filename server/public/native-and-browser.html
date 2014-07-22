@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>PeerConnection server test page</title>
+<script src="/js/peerconnection-client.js"></script>
+<script src="/js/native-client.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="/css/native-and-browser.css"/> -->
+</head>
+<body>
+    <div id=container">
+        <div id="remote">
+            <video id="remote-video" width="50%" height="50%"></video>
+        </div>
+        <div id="local">
+            <video id="local-video" width="50%" height="50%"></video>
+        </div>
+    </div>
+    Server: <input type="text" id="server" value="http://meet.rjjacky.info:8888" /><br>
+    Your name: <input type="text" id="name" value="test-rj"/>
+    <button id="connect" onclick="connect();">Connect</button>
+    <button disabled="true" id="disconnect" onclick="disconnect();">Disconnect</button>
+    <br>
+    <button onclick="document.getElementById('debug').innerHTML='';">Clear log</button>
+    <pre id="debug"></pre>
+    <br>
+    <hr>
+</body>
+</html>
