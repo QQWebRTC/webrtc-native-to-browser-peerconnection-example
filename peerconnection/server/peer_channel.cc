@@ -431,7 +431,7 @@ void PeerChannelRooms::CheckForTimeout(){
       iter->second->CheckForTimeout();
   }
 }
-void DeleteAll(){
+void PeerChannelRooms::DeleteAll(){
   for(RoomChannels::iterator iter=roomChannels_.begin();
       roomChannels_.end()!=iter;++iter){
       iter->second->DeleteAll();
