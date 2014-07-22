@@ -113,7 +113,7 @@ class Conductor
   // MainWndCallback implementation.
   //
 
-  virtual void StartLogin(const std::string& server, int port);
+  virtual void StartLogin(const std::string& server, int port, const std::string& room);
 
   virtual void DisconnectFromServer();
 
