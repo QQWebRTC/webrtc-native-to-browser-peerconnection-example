@@ -92,7 +92,7 @@ std::string DataSocket::request_arguments() const {
     return request_path_.substr(args + 1);
   return "";
 }
-std::map<std::string,std::string> DataSocket:request_arguments_dict() const{
+std::map<std::string,std::string> DataSocket::request_arguments_dict() const{
   std::string s = request_arguments();
   if(*s.end()!='&'){
       s.push_back('&');
