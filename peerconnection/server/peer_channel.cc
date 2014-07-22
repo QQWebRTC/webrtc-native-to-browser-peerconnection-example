@@ -255,9 +255,8 @@ ChannelMember* PeerChannel::IsTargetedRequest(const DataSocket* ds) const {
   return NULL;
 }
 
-bool PeerChannel::AddMember(DataSocket* ds) {
+bool PeerChannel::AddMember(ChannelMember* new_guy,DataSocket* ds) {
   assert(IsPeerConnection(ds));
-  ChannelMember* new_guy = new ChannelMember(ds);
   Members failures; //233333
   BroadcastChangedState(*new_guy, &failures);
   HandleDeliveryFailures(&failures);
@@ -374,4 +373,61 @@ std::string PeerChannel::BuildResponseForNewMember(const ChannelMember& member,
   }
 
   return response;
+}
+
+bool PeerChannelRooms::AddMember(DataSocket* ds){
+  ChannelMember* new_guy = new ChannelMember(ds);
+  PeerChannel * channel = getChannelByRoom(new_guy->room());
+  channel->AddMember(new_guy,ds);
+}
+
+PeerChannel* PeerChannelRooms::getChannelByRoom(const std::string& room){
+  RoomChannels::iterator iter = roomChannels_.find(room);
+  if(roomChannels_.end()==iter){
+    PeerChannel* channel = new PeerChannel();
+    roomChannels_.insert(pair<std::string,PeerChannel*>(room,channel));
+    return channel;
+  }
+  else{
+    return iter->second;
+  }
+}
+ChannelMember* PeerChannelRooms::Lookup(DataSocket* ds)const{
+  for(RoomChannels::iterator iter=roomChannels_.begin();
+      roomChannels_.end()!=iter;++iter){
+    ChannelMember* cm = iter->second->Lookup(ds);
+    if(cm){
+      return cm;
+    }
+  }
+  return NULL;
+}
+ChannelMember* PeerChannelRooms::IsTargetedRequest(const DataSocket* ds){
+  for(RoomChannels::iterator iter=roomChannels_.begin();
+      roomChannels_.end()!=iter;++iter){
+    ChannelMember* cm = iter->second->IsTargetedRequest(ds);
+    if(cm){
+      return cm;
+    }
+  }
+  return NULL;
+}
+void PeerChannelRooms::CloseAll(){
+  for(RoomChannels::iterator iter=roomChannels_.begin();
+      roomChannels_.end()!=iter;++iter){
+      ter->second->CloseAll();
+  }
+  return NULL;
+}
+void PeerChannelRooms::OnClosing(DataSocket* ds){
+  for(RoomChannels::iterator iter=roomChannels_.begin();
+      roomChannels_.end()!=iter;++iter){
+      ter->second->OnClosing(ds);
+  }
+}
+void PeerChannelRooms::CheckForTimeout(){
+  for(RoomChannels::iterator iter=roomChannels_.begin();
+      roomChannels_.end()!=iter;++iter){
+      ter->second->CheckForTimeout();
+  }
 }

@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
 
   printf("Server listening on port %i\n", FLAG_port);
 
-  PeerChannel clients;
+  PeerChannelRooms clients;
   typedef std::vector<DataSocket*> SocketArray;
   SocketArray sockets;
   bool quit = false;

@@ -34,6 +34,7 @@
 #include <queue>
 #include <string>
 #include <vector>
+#include <map>
 
 class DataSocket;
 
@@ -48,6 +49,7 @@ class ChannelMember {
   void set_disconnected() { connected_ = false; }
   bool is_wait_request(DataSocket* ds) const;
   const std::string& name() const { return name_; }
+  const std::string& room() const { return room_; }
 
   bool TimedOut();
 
@@ -109,7 +111,7 @@ class PeerChannel {
 
   // Adds a new ChannelMember instance to the list of connected peers and
   // associates it with the socket.
-  bool AddMember(DataSocket* ds);
+  bool AddMember(ChannelMember* new_guy,DataSocket* ds);
 
   // Closes all connections and sends a "shutting down" message to all
   // connected peers.
@@ -133,6 +135,32 @@ class PeerChannel {
 
  protected:
   Members members_;
+};
+
+class PeerChannelRooms{
+  public:
+    typedef std::map<std::string,PeerChannel*> RoomChannels;
+    PeerChannelRooms(){ 
+    }
+    ~PeerChannelRooms(){
+      DeleteAll();
+    }
+  
+    bool AddMember(DataSocket* ds);
+    ChannelMember* Lookup(DataSocket* ds) const;
+
+    void CloseAll();
+
+    // Called when a socket was determined to be closing by the peer (or if the
+    // connection went dead).
+    void OnClosing(DataSocket* ds);
+
+    void CheckForTimeout();
+  protected:
+    PeerChannel* getChannelByRoom(const std::string& room);
+
+  protected:
+    RoomChannels roomChannels_;
 };
 
 #endif  // TALK_EXAMPLES_PEERCONNECTION_SERVER_PEER_CHANNEL_H_
